@@ -1,16 +1,15 @@
 apply plugin: 'com.android.library'
 
 android {
+    namespace 'com.koushikdutta.async'
+    buildFeatures {
+        buildConfig true
+    }
     sourceSets {
         main {
             manifest.srcFile 'AndroidManifest.xml'
-
             jniLibs.srcDirs = ['libs/']
-
-            java.srcDirs=['src/'
-//                          , '../conscrypt/'
-//                          , '../compat/'
-            ]
+            java.srcDirs=['src/']
         }
         androidTest.java.srcDirs=['test/src/']
         androidTest.res.srcDirs=['test/res/']
@@ -22,15 +21,19 @@ android {
     }
 
     defaultConfig {
-        targetSdkVersion 24
-        minSdkVersion 9
+        minSdkVersion 23
+        targetSdkVersion 33
+    }
+    compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
     }
 
-    compileSdkVersion project.hasProperty('global_compileSdkVersion') ? global_compileSdkVersion : 25
-    buildToolsVersion project.hasProperty('global_buildToolsVersion') ? global_buildToolsVersion : '25.0.2'
-}
+    compileSdk 33
 
-// upload to maven task
-if (System.getenv().I_AM_KOUSH == 'true') {
-  apply from: 'https://raw.githubusercontent.com/koush/mvn-repo/master/maven.gradle'
+    dependencies {
+        // this is only necessary to get compilation working for self signed certificates. dependency isn't added.
+        compileOnly group: 'org.bouncycastle', name: 'bcprov-jdk15on', version: '1.60'
+        compileOnly group: 'org.bouncycastle', name: 'bcpkix-jdk15on', version: '1.60'
+    }
 }
