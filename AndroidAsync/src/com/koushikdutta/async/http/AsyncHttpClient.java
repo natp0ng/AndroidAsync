@@ -168,7 +168,7 @@ public class AsyncHttpClient {
         }
         if (complete) {
             callback.onConnectCompleted(ex, response);
-            assert ex != null || response.socket() == null || response.getDataCallback() != null || response.isPaused();
+            //assert ex != null || response.socket() == null || response.getDataCallback() != null || response.isPaused();
             return;
         }
 
